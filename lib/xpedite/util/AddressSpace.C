@@ -23,7 +23,7 @@ namespace xpedite { namespace util {
   AddressSpace* AddressSpace::_instance;
 
   void AddressSpace::Segment::toString(std::ostringstream& os_) const {
-    os_ << "Segment [" << this << "] {" << 
+    os_ << "Segment [" << this << "] {" <<
         std::hex << static_cast<const void*>(_begin) << "-" << static_cast<const void*>(_end) << " | " << std::dec <<
         "can read - " << canRead() << ", can write - " << canWrite() << ", can exec - " << canExec() <<
         ", is position independent - " << isPositionIndependent() << ", file - " << file() <<
@@ -36,13 +36,13 @@ namespace xpedite { namespace util {
     return os.str();
   }
 
-  constexpr char* anonymousSegment {"[anonymous]"};
+  constexpr const char* anonymousSegment {"[anonymous]"};
 
   AddressSpace::Segment readSegment(std::string record, const std::string& executablePath_) {
     std::string range, flags, file;
     {
       std::istringstream stream {record};
-      if(!(stream >> range >> flags)) { 
+      if(!(stream >> range >> flags)) {
         return {};
       }
       while(stream) {

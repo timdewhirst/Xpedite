@@ -1,11 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// CallSite - A instrumented location in instruction stream, that can call 
+// CallSite - A instrumented location in instruction stream, that can call
 // a trampoline upon activation.
 //
-// Activated call sites jump to pre-determined trampoline location to collect 
+// Activated call sites jump to pre-determined trampoline location to collect
 // samples for a profile session
-// 
+//
 // Author: Manikandan Dhamodharan, Morgan Stanley
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -47,11 +47,11 @@ namespace xpedite { namespace probes {
       IS_POSITION_INDEPENDENT = 1 << 6
     };
 
-    void markActive() noexcept { 
+    void markActive() noexcept {
       _attr |= IS_ACTIVE;
     }
 
-    void markInActive() noexcept { 
+    void markInActive() noexcept {
       _attr &= ~IS_ACTIVE;
     }
 
@@ -97,16 +97,16 @@ namespace xpedite { namespace probes {
     unsigned char _bytes[sizeof(uint64_t)];
   };
 
-  using CallSite = volatile Instructions*; 
+  using CallSite = volatile Instructions*;
 
-  using Trampoline = void (*) (); 
+  using Trampoline = void (*) ();
 
   inline constexpr uint32_t offset(CallSite callSite_, Trampoline trampoline_) noexcept {
-    return reinterpret_cast<unsigned char*>(trampoline_) - reinterpret_cast<volatile unsigned char*>(callSite_) - CAll_SITE_LEN;
+      return (unsigned char*)trampoline_ - (volatile unsigned char*)callSite_ - CAll_SITE_LEN;
   }
 
   inline constexpr long offset(CallSite lhs_, CallSite rhs_) noexcept {
-    return reinterpret_cast<volatile unsigned char*>(lhs_) - reinterpret_cast<volatile unsigned char*>(rhs_);
+      return (volatile unsigned char*)lhs_ - (volatile unsigned char*)rhs_;
   }
 
   inline const void* getcallSite(const void* returnSite_) {

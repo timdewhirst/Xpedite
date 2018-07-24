@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// FixedPmcSet - Object to track state of fixed pmc registers 
+// FixedPmcSet - Object to track state of fixed pmc registers
 //
 // Supports profiling of three architectual fixed counter registers
 //   1. Number of instructions retired
@@ -40,7 +40,7 @@ namespace xpedite { namespace probes {
     void enable() noexcept {
       static_assert(CounterIndex < MAX_COUNTER_COUNT, "Invalid fixed pmu counter index");
       constexpr uint8_t mask {1 << CounterIndex};
-      _counterSet |= mask; 
+      _counterSet |= mask;
     }
 
     void enable(uint8_t index_) {
@@ -63,14 +63,14 @@ namespace xpedite { namespace probes {
     void disable() noexcept {
       static_assert(CounterIndex < MAX_COUNTER_COUNT, "Invalid fixed pmu counter index");
       constexpr uint8_t mask {~(1 << CounterIndex)};
-      _counterSet &= mask; 
+      _counterSet &= mask;
     }
 
     template<uint8_t CounterIndex>
     bool isEnabled() const noexcept {
       static_assert(CounterIndex < MAX_COUNTER_COUNT, "Invalid fixed pmu counter index");
       constexpr uint8_t mask {1 << CounterIndex};
-      return _counterSet & mask; 
+      return _counterSet & mask;
     }
 
     void reset() noexcept {
@@ -80,9 +80,9 @@ namespace xpedite { namespace probes {
     uint8_t size() const noexcept {
       return __builtin_popcount(_counterSet);
     }
-    
+
     std::string toString() const {
-      static std::array<const char*, MAX_COUNTER_COUNT +1> counterNames {"INST_RETIRED_ANY", "CPU_CLK_UNHALTED_CORE", "CPU_CLK_UNHALTED_REF", "UNKNOWN"};
+      static std::array<const char*, MAX_COUNTER_COUNT +1> counterNames{ {"INST_RETIRED_ANY", "CPU_CLK_UNHALTED_CORE", "CPU_CLK_UNHALTED_REF", "UNKNOWN"} };
       std::ostringstream stream;
       stream << "Enabled fixed PMU Counters - | ";
       if(!_counterSet) {

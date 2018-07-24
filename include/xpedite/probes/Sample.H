@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Classes to store timing, pmc and probe data 
+// Classes to store timing, pmc and probe data
 //
 // Sample - a variable length POD object to store probe sample data
 //
@@ -25,7 +25,7 @@ namespace xpedite { namespace common {
 
 namespace xpedite { namespace probes {
 
-  struct Probe;
+  class Probe;
 
   class Sample
   {
@@ -148,7 +148,7 @@ namespace xpedite { namespace probes {
       if(fixedPmcSet_.isEnabled<FixedPmcSet::CPU_CLK_UNHALTED_CORE>()) {
         ptr[pmcCount_++] = RDPMC(0x40000001);  // 0x30A
       }
-      
+
       if(fixedPmcSet_.isEnabled<FixedPmcSet::CPU_CLK_UNHALTED_REF>()) {
         ptr[pmcCount_++] = RDPMC(0x40000002);  // 0x30B
       }
@@ -157,7 +157,7 @@ namespace xpedite { namespace probes {
 
     std::string toString() const {
       std::ostringstream os;
-      os << "Sample[" << std::hex << _returnSite << "]" << std::dec << "{" << 
+      os << "Sample[" << std::hex << _returnSite << "]" << std::dec << "{" <<
         "tsc - " << tsc() << " | " << "size - " << size();
         if(hasData()) {
           os << " | data [" << std::get<0>(data()) << "," << std::get<1>(data()) << "]";

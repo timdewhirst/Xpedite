@@ -81,14 +81,14 @@ namespace xpedite { namespace framework {
 
     static bool isInitialized();
     static void expand();
-    
+
     bool isReaderAttached() const noexcept {
       return _fd >= 0;
     }
 
     bool attachReader(const std::string& fileNamePattern_) noexcept {
       if(isReaderAttached()) {
-        XpediteLogError << "xpedite - failed to attach reader to thread " << tid() 
+        XpediteLogError << "xpedite - failed to attach reader to thread " << tid()
           << " - reader already attached. attaching multiple readers not permitted" << XpediteLogEnd;
         return false;
       }
@@ -96,7 +96,7 @@ namespace xpedite { namespace framework {
       std::string filePath = buildSampledFilePath(fileNamePattern_);
       _fd = util::openSamplesFile(filePath);
       if(_fd < 0) {
-        XpediteLogError << "xpedite - failed to attach reader to thread " << tid() << " - cannot open file - \"" 
+        XpediteLogError << "xpedite - failed to attach reader to thread " << tid() << " - cannot open file - \""
           << filePath << "\"" << XpediteLogEnd;
         return false;
       }
@@ -111,7 +111,7 @@ namespace xpedite { namespace framework {
 
     bool detachReader() noexcept {
       if(!isReaderAttached()) {
-        XpediteLogError << "xpedite - failed to detach reader to thread " << tid() 
+        XpediteLogError << "xpedite - failed to detach reader to thread " << tid()
           << " - thread is not attached to any active readers" << XpediteLogEnd;
         return false;
       }
@@ -195,7 +195,7 @@ namespace xpedite { namespace framework {
       if(index != std::string::npos) {
         fileName.replace(index, 1, _tidStr);
       }
-      return std::move(fileName);
+      return fileName;
     }
 
     static std::atomic<SamplesBuffer*> _head;

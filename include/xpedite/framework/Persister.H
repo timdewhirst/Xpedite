@@ -36,6 +36,7 @@ namespace xpedite { namespace framework {
     timeval time()  const noexcept { return _time; }
     uint32_t size() const noexcept { return _size; }
     uint32_t seq()  const noexcept { return _seq;  }
+    uint64_t signature() const noexcept { return _signature; }
 
   } __attribute__((packed));
 

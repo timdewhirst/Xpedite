@@ -21,8 +21,9 @@ namespace xpedite { namespace probes { namespace test {
     return reinterpret_cast<CallSite>(const_cast<volatile void*>(ptr_));
   }
 
-  struct ProbeTest : ::testing::Test
+  class ProbeTest : public ::testing::Test
   {
+  public:
     static Probe buildProbe(void* callSite_) {
       Probe probe {};
       probe._callSite = callSite(callSite_);
@@ -45,7 +46,8 @@ namespace xpedite { namespace probes { namespace test {
   constexpr int PMU_RECORDER_INDEX {2};
 
   TEST_F(ProbeTest, ProbeValidation) {
-    alignas(8) unsigned char buffer[getpagesize()] {};
+    std::vector< unsigned char > buffer_( getpagesize() + 8 );
+    auto buffer{ &buffer_[ (uintptr_t)&buffer_[0] % 8 ] };
     Probe probe {ProbeTest::buildProbe(buffer+1)};
     ASSERT_FALSE(probe.isValid(callSite(buffer+1), callSite(buffer+6))) << "falied to detect unaligned probe";
 
@@ -59,7 +61,9 @@ namespace xpedite { namespace probes { namespace test {
 
 
   TEST_F(ProbeTest, ProbeActivation) {
-    unsigned char buffer[getpagesize()] {};
+    std::vector< unsigned char > buffer_( getpagesize() + 8 );
+    auto buffer{ &buffer_[ (uintptr_t)&buffer_[0] % 8 ] };
+
     Probe probe {ProbeTest::buildProbe(buffer)};
 
     memcpy(buffer, &FIVE_BYTE_NOP, sizeof(FIVE_BYTE_NOP));

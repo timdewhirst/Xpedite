@@ -28,21 +28,21 @@ namespace xpedite { namespace probes {
   RecorderCtl RecorderCtl::_instance;
 
   RecorderCtl::RecorderCtl()
-    : _recorders {
+    : _recorders { {
         xpediteExpandAndRecord,
         xpediteRecord,
         xpediteRecordPmc,
         xpediteRecordAndLog
-      }, 
-      _dataRecorders {
+      } },
+      _dataRecorders { {
         xpediteExpandAndRecordWithData,
         xpediteRecordWithData,
         xpediteRecordPmcWithData,
         xpediteRecordWithDataAndLog
-      },
+      } },
       _genericPmcCount {},
-      _fixedPmcSet {} {
-  }
+      _fixedPmcSet {}
+  {}
 
   int RecorderCtl::activeRecorderIndex() noexcept {
     for(int i=0; i<static_cast<int>(_recorders.size()) && _recorders[i]; ++i) {
@@ -63,7 +63,7 @@ namespace xpedite { namespace probes {
   }
 
   bool RecorderCtl::canActivateRecorder(int index_) noexcept {
-    return static_cast<unsigned>(index_) < _recorders.size() && _recorders[index_] 
+    return static_cast<unsigned>(index_) < _recorders.size() && _recorders[index_]
       && static_cast<unsigned>(index_) < _dataRecorders.size() && _dataRecorders[index_];
   }
 

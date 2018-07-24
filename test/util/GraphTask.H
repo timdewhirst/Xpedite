@@ -86,6 +86,8 @@ class GraphTask
     _child->enque((*_threads)[0], _child.get());
   }
 
+  unsigned id() const { return _id; }
+
   private:
 
   unsigned _id;

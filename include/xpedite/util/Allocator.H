@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// The file contains 
+// The file contains
 //  1. Classes and methods to provide custom memory allocators
 //  2. Classes to enforce strict alignment of latency critical objects
 //
@@ -62,7 +62,7 @@ namespace xpedite { namespace util {
       using other = Allocator<U>;
     };
 
-    pointer allocate(size_type n_, std::allocator<void>::const_pointer hint_ = 0) {
+    pointer allocate(size_type n_, std::allocator<void>::const_pointer /*hint_*/ = 0) {
       const auto size = n_ * sizeof(T);
       if(auto ptr = xpediteMalloc(size)) {
         return reinterpret_cast<pointer>(ptr);
@@ -70,7 +70,7 @@ namespace xpedite { namespace util {
       throw std::bad_alloc {};
     }
 
-    void deallocate(pointer p_, size_type n_) {
+    void deallocate(pointer p_, size_type /*n_*/) {
       xpediteFree(p_);
     }
 
